@@ -26,7 +26,8 @@ SECRET_KEY = '!%rn9sd29(qp!h!3+-#hf&8&jhiw&adxsz(y)ce0zbi*(6#1@z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','localhost', '172.30.1.59']
+# ALLOWED_HOSTS = ['0.0.0.0','localhost', '172.30.1.59']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,7 +42,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'corsheaders',
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.DjangoModelPermissions',
+    )
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,6 +59,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+]
+CORS_ORIGIN_WHITELIST = [ # 허용할 프론트엔드 도메인 추가 EX: 
+    'http://localhost:3000', 
+    'https://localhost:3000', 
+    'http://127.0.0.1:8000', 
 ]
 
 ROOT_URLCONF = 'DjangoTut.urls'

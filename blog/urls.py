@@ -10,7 +10,10 @@ from .views import (
 from . import views
 
 urlpatterns = [
-    path('', PostListView.as_view(), name='blog-home'),
+    # path('', PostListView.as_view(), name='blog-home'),
+    path('', views.home, name='blog-home'),
+    path('post-list/', views.postList, name='post-list'),
+    path('post-list/<int:pk>', views.postDetail, name='post-detail'),
     path('user/<str:username>', UserPostListView.as_view(), name='user-posts'),
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('post/new/', PostCreateView.as_view(), name='post-create'),
