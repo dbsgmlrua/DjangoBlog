@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
-from django.http import HttpResponse
 from django.views.generic import (
     ListView, 
     DetailView, 
@@ -11,35 +10,11 @@ from django.views.generic import (
     )
 from .models import Post
 
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from .serializers import PostSerializer
-from rest_framework import permissions
-
-@api_view(['GET', 'POST'])
-@permission_classes((permissions.AllowAny,))
 def home(request):
     context ={
-        'posts' : 'data',
+        'posts' : Post.objects.all()
     }
-    return Response(context)
-    #return render(request, 'blog/home.html', context)
-
-@api_view(['GET'])
-@permission_classes((permissions.AllowAny,))
-def postList(request):
-    posts = Post.objects.all()
-
-    serializer = PostSerializer(posts, many=True)
-    return Response(serializer.data)
-
-@api_view(['GET'])
-@permission_classes((permissions.AllowAny,))
-def postDetail(request, pk):
-    posts = Post.objects.filter(id=pk)
-    
-    serializer = PostSerializer(posts[0])
-    return Response(serializer.data)
+    return render(request, 'blog/home.html', context)
 
 class PostListView(ListView):
     model = Post
